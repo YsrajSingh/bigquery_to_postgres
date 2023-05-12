@@ -11,7 +11,7 @@ start_time = time.time()
 # Connect to Postgres
 DATABASE_URL = "postgresql://postgres:password@127.0.0.1:5432/musicflow"
 
-TABLE_NAME = "duplicate_track2"
+TABLE_NAME = "duplicate_track3"
 
 File_1 = "./static/tracks_full.csv"
 File_2 = "./static/bmg_taxonomy.csv"
@@ -46,19 +46,31 @@ except Exception as ex:
     print("CSV File is not loaded Successfully: \n", ex)
 
 
-# Get the columns of the existing table
-existing_columns = pd.read_sql_table(TABLE_NAME, engine).columns
-existing_columns_count = existing_columns.__len__()
+print("Loading....")
+try:
+    # Get the columns of the existing table
+    existing_columns = pd.read_sql_table(TABLE_NAME, engine).columns
+    existing_columns_count = existing_columns.__len__()
 
-if existing_columns_count == 0:
-    print(f"Total Columns in Table = {existing_columns_count}, ! ERROR")
-else:
+    if existing_columns_count == 0:
+        print(f"Total Columns in Table = {existing_columns_count}, ! ERROR")
+    else:
+        print("Uploading")
+        try:
+            # Filter the DataFrame to only include columns that exist in the table
+            csv_f_filtered = csv_f.loc[:, csv_f.columns.isin(existing_columns)]
+            # Append the filtered data to the existing table
+            csv_f_filtered.to_sql(TABLE_NAME, engine, if_exists="append", index=False)
+            print(f"Congratulations! CSV uploaded to database successfully")
+        except Exception as ex:
+            print("There is some error in uploading of data to database \n", ex)
+
+except:
+    # Table Not Found, Creating New Table
+    print(f"{TABLE_NAME} table not found. So, continue on creating new table")
     try:
-        print("Loading....")
-        # Filter the DataFrame to only include columns that exist in the table
-        csv_f_filtered = csv_f.loc[:, csv_f.columns.isin(existing_columns)]
-        # Append the filtered data to the existing table
-        csv_f_filtered.to_sql(TABLE_NAME, engine, if_exists="append", index=False)
+        # Insert data into PostgreSQL table using SQLAlchemy
+        csv_f.to_sql(TABLE_NAME, engine, if_exists="append", index=False)
         print(f"Congratulations! CSV uploaded to database successfully")
     except Exception as ex:
         print("There is some error in uploading of data to database \n", ex)
