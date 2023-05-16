@@ -1,0 +1,18 @@
+[
+  {
+    "source_column": "collection_track_id",
+    "destination_column": "uuid"
+  },
+  {
+    "source_column": "record",
+    "destination_column": "record"
+  },
+  {
+    "source_column": "created_at",
+    "destination_column": "created_at"
+  },
+  {
+    "source_column": "updated_at",
+    "destination_column": "updated_at"
+  }
+]
