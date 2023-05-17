@@ -10,7 +10,7 @@ def get_database(DB_url):
     try:
         # GET THE CONNECTION OBJECT (ENGINE) FOR THE DATABASE
         engine = db_connection(DB_url)
-        print(f"Connection to the {engine} created successfully.")
+        print(f"Connection to the {engine} created successfully.\n")
         return engine
 
     except Exception as ex:

@@ -1,12 +1,22 @@
-from settings.settings import NEW_DATABASE_URL, TABLE_NAME, CSV_FILE
+from settings.settings import NEW_DATABASE_URL, CSV_FILE, JSON_FILE_PATH
 from .db_connection import get_database
 from .csv_loader import get_csv
+import json
 
 engine = get_database(NEW_DATABASE_URL)
-csv_file = get_csv(CSV_FILE)
-
 if engine is None:
-    raise Exception("Could not connect to the database")
+    raise Exception("Could not connect to the database.")
 
-if csv_file is None:
-    raise Exception("Could not load the CSV file")
+# Load JSON file containing column mapping
+with open(JSON_FILE_PATH) as f:
+    json_data = json.load(f)
+
+
+def csv_data(BigQueryTableName):
+    TablePath = CSV_FILE + BigQueryTableName
+    csv_file = get_csv(TablePath, BigQueryTableName)
+
+    if csv_file is None:
+        raise Exception("Could not load the CSV file of BigQuery.")
+
+    return csv_file

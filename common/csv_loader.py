@@ -6,11 +6,11 @@ def csv_connection(FilePath):
     return pd.read_csv(FilePath)
 
 
-def get_csv(FilePath):
+def get_csv(FilePath, FileName):
     try:
         # GET THE REQUIRED CSV FILE and SHOW DATA OF FILE
         csv_file = csv_connection(FilePath)
-        print(f"CSV File data loaded successfully.")
+        print(f"CSV File : {FileName} data loaded successfully.\n")
         return csv_file
 
     except Exception as ex:
