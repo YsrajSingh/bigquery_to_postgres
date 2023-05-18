@@ -1,31 +1,22 @@
 # Migration Script
 
-This is a migration script that allows you to migrate data from BigQuery to a Postgres database.
+This repository contains a migration script designed to facilitate the transfer of data from BigQuery to a Postgres database.
 
 ## Getting Started
 
-To run this project, you need to follow these steps:
+To run this project, please follow the steps outlined below:
 
-- Clone the repository:
+- Clone the repository and navigate to the project directory.
 
-```bash
-git clone https://github.com/your-username/your-repo.git
-```
-
-- Navigate to the project directory:
-
-```bash
-cd your-repo
-```
-
-- Create and activate a virtual environment:
+- Create and activate a virtual environment by executing the following commands:
 
 ```bash
 python -m venv .venv
+
 source .venv/bin/activate
 ```
 
-- Install the required dependencies:
+- Install the necessary dependencies by running:
 
 ```bash
 pip install -r requirements.txt
@@ -33,17 +24,20 @@ pip install -r requirements.txt
 
 - Customize the environment variables:
 
-  Create a .env file and set the following environment variable:
+  Refer to the provided .env.example file for an example. Create a .env file and set the following environment variables:
 
 ```bash
 DATABASE_URL=<your-database-url>
+
+CSV_CHUNK_SIZE=<chunk-size>
+
 ```
 
-Replace <your-database-url> with the URL of your Postgres database.
+Replace <your-database-url> with the URL of your Postgres database and <chunk-size> with an appropriate integer value.
 
 - Update the migration configuration:
 
-  In the migration.json file, update the values for BigQueryTable, PostgresTable, source_column, and destination_column according to your requirements. Ensure that the CSV file specified in BigQueryTable exists in the static folder, and that both source_column and destination_column are valid column names in their respective tables.
+  Open the migration.json file and modify the values for BigQueryTable, PostgresTable, source_column, and destination_column based on your specific requirements. Ensure that the CSV file specified in BigQueryTable exists in the static folder, and that both source_column and destination_column are valid column names in their respective tables.
 
 - Run the migration script:
 
@@ -51,7 +45,7 @@ Replace <your-database-url> with the URL of your Postgres database.
 python index.py
 ```
 
-The script will fetch data from BigQuery based on the specified configuration and migrate it to the Postgres database.
+The script will retrieve data from BigQuery according to the specified configuration and migrate it to the Postgres database.
 
 ## Notes
 
@@ -64,7 +58,3 @@ The script will fetch data from BigQuery based on the specified configuration an
 - Take into account the size of the data being migrated and the performance implications of inserting data row by row. Consider using bulk insertion methods for better performance if applicable.
 
 - It is recommended to review and understand the code in the script before running it to ensure it meets your specific requirements and data migration needs.
-
-## License
-
-- This project is licensed under the MIT License.
